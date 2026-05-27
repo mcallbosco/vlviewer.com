@@ -3,6 +3,7 @@ title: "Custom Portraits, Custom Conversations, and More Customizations!"
 date: "2026-05-26"
 game: "Deadlock"
 description: "You can now use portraits from your favorite artists!"
+image: "/blog/2026/5/2026-5-update.png"
 ---
 
 If you were here on April 1, you probably remember Catlock Viewer. Now you can somewhat relive that day by setting your character portraits to DieChance's Catlock, Jill's Jill's Mod, or ToastyGhostey's Deadlock Toasted. If those aren't to your taste, you can also choose from the standard in-game critical, gloat, minimap, and normal portraits. You can also pick which icon a character should use when you hover over them or when they're speaking.

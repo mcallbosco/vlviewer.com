@@ -1,8 +1,11 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { getAllPostSlugs, getPostData } from '@/lib/blog';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import CategoryBadge from '@/components/CategoryBadge';
+
+const SITE_URL = 'https://vlviewer.com';
 
 export async function generateStaticParams() {
   const paths = getAllPostSlugs();
@@ -13,6 +16,34 @@ export async function generateStaticParams() {
 
 interface Props {
   params: Promise<{ slug: string }>;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const postData = await getPostData(slug);
+
+  const imageUrl = postData.image
+    ? (postData.image.startsWith('http') ? postData.image : `${SITE_URL}${postData.image}`)
+    : undefined;
+
+  return {
+    title: postData.title,
+    description: postData.description,
+    openGraph: {
+      title: postData.title,
+      description: postData.description,
+      url: `${SITE_URL}/blog/${slug}`,
+      siteName: 'VLViewer.com',
+      type: 'article',
+      ...(imageUrl ? { images: [{ url: imageUrl }] } : {}),
+    },
+    twitter: {
+      card: imageUrl ? 'summary_large_image' : 'summary',
+      title: postData.title,
+      description: postData.description,
+      ...(imageUrl ? { images: [imageUrl] } : {}),
+    },
+  };
 }
 
 export default async function Post({ params }: Props) {
