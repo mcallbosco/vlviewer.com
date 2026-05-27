@@ -1,6 +1,6 @@
 ---
 title: "Pre-Jan 2026 update!"
-date: "2026-1-20"
+date: "2026-01-20"
 game: "Deadlock"
 description: "There are some shopkeeper lines for the upcoming characters!"
 ---

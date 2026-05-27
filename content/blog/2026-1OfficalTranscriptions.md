@@ -1,6 +1,6 @@
 ---
 title: "There are now official transcriptions!"
-date: "2026-1-25"
+date: "2026-01-25"
 game: "Deadlock"
 description: "Most transcriptions should now be completely accurate."
 ---
