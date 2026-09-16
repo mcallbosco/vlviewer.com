@@ -4,10 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "prebuild": "node scripts/fetch-contributors.mjs",
+    "predev": "node scripts/generate-ai-files.mjs",
+    "prebuild": "node scripts/fetch-contributors.mjs && node scripts/generate-ai-files.mjs",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate-ai-files": "node scripts/generate-ai-files.mjs"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.19",

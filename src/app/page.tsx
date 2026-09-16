@@ -1,6 +1,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import DeadlockBlemishedWobbly from '@/components/card-themes/DeadlockBlemishedWobbly';
+import JsonLd from '@/components/JsonLd';
+import { pageAlternates } from '@/lib/site';
+
+export const metadata: Metadata = {
+  alternates: pageAlternates('/', '/index.md'),
+};
 
 const games = [
   {
@@ -35,10 +42,11 @@ export default function Home() {
       <div className="relative w-24 h-24 mb-6 transition-transform duration-300 group-hover:scale-110 drop-shadow-xl">
         <Image
           src={game.icon}
-          alt={`${game.name} Icon`}
+          alt={`${game.name} voice lines`}
           fill
           className="object-contain"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          sizes="96px"
+          priority
         />
       </div>
 
@@ -84,20 +92,34 @@ export default function Home() {
                 Voiceline Viewer
               </Link>
             </div>
-            <div className="flex space-x-6 items-center mt-4 sm:mt-0">
+            <nav aria-label="Primary" className="flex space-x-6 items-center mt-4 sm:mt-0">
               <Link href="/contributors" className="text-gray-300 hover:text-white font-medium transition-colors">
                 Contributors
               </Link>
               <Link href="/blog" className="text-gray-300 hover:text-white font-medium transition-colors">
                 Blog
               </Link>
-            </div>
+            </nav>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
       <main className="flex-grow container mx-auto px-4 py-8 flex flex-col items-center justify-center">
+        <JsonLd
+          data={{
+            '@context': 'https://schema.org',
+            '@type': 'ItemList',
+            name: 'Voiceline Viewer games',
+            itemListElement: games.map((game, index) => ({
+              '@type': 'ListItem',
+              position: index + 1,
+              name: game.name,
+              url: game.url,
+              description: game.description,
+            })),
+          }}
+        />
         <div className="w-full max-w-7xl relative z-0">
           <div className="text-center mb-16">
             <h1 className="text-4xl sm:text-5xl font-bold mb-6 text-white">

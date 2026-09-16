@@ -71,7 +71,7 @@ export default function BlogList({ posts }: BlogListProps) {
             <article key={slug} className="bg-gray-800/50 rounded-lg p-6 hover:bg-gray-800 transition-colors border border-gray-700/50">
               <div className="flex items-center gap-3 mb-2 text-sm">
                 <CategoryBadge category={game} />
-                <span className="text-gray-500">{date}</span>
+                <time className="text-gray-500" dateTime={date}>{date}</time>
               </div>
               <Link href={`/blog/${slug}`}>
                 <h2 className="text-2xl font-bold mb-2 hover:text-blue-400 transition-colors">{title}</h2>
