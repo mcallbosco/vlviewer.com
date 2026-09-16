@@ -4,8 +4,16 @@ import { getAllPostSlugs, getPostData } from '@/lib/blog';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import CategoryBadge from '@/components/CategoryBadge';
-
-const SITE_URL = 'https://vlviewer.com';
+import JsonLd from '@/components/JsonLd';
+import {
+  AUTHOR_NAME,
+  AUTHOR_URL,
+  SITE_NAME,
+  SITE_SHORT_NAME,
+  SITE_URL,
+  absoluteUrl,
+  pageAlternates,
+} from '@/lib/site';
 
 export async function generateStaticParams() {
   const paths = getAllPostSlugs();
@@ -21,6 +29,7 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const postData = await getPostData(slug);
+  const pageUrl = `${SITE_URL}/blog/${slug}`;
 
   const imageUrl = postData.image
     ? (postData.image.startsWith('http') ? postData.image : `${SITE_URL}${postData.image}`)
@@ -29,19 +38,29 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: postData.title,
     description: postData.description,
+    authors: [{ name: AUTHOR_NAME, url: AUTHOR_URL }],
+    category: postData.game,
+    alternates: pageAlternates(`/blog/${slug}`, `/blog/${slug}.md`),
     openGraph: {
       title: postData.title,
       description: postData.description,
-      url: `${SITE_URL}/blog/${slug}`,
-      siteName: 'VLViewer.com',
+      url: pageUrl,
+      siteName: SITE_SHORT_NAME,
       type: 'article',
-      ...(imageUrl ? { images: [{ url: imageUrl }] } : {}),
+      publishedTime: postData.date,
+      modifiedTime: postData.date,
+      authors: [AUTHOR_NAME],
+      section: postData.game,
+      tags: postData.game ? [postData.game] : undefined,
+      images: imageUrl
+        ? [{ url: imageUrl, alt: postData.title }]
+        : [{ url: '/og.png', width: 1200, height: 630, alt: postData.title }],
     },
     twitter: {
-      card: imageUrl ? 'summary_large_image' : 'summary',
+      card: 'summary_large_image',
       title: postData.title,
       description: postData.description,
-      ...(imageUrl ? { images: [imageUrl] } : {}),
+      images: imageUrl ? [imageUrl] : ['/og.png'],
     },
   };
 }
@@ -49,6 +68,40 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function Post({ params }: Props) {
   const { slug } = await params;
   const postData = await getPostData(slug);
+  const pageUrl = `${SITE_URL}/blog/${slug}`;
+  const imageUrl = postData.image
+    ? absoluteUrl(postData.image)
+    : undefined;
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'BlogPosting',
+        '@id': `${pageUrl}#article`,
+        headline: postData.title,
+        description: postData.description,
+        datePublished: postData.date,
+        dateModified: postData.date,
+        url: pageUrl,
+        mainEntityOfPage: pageUrl,
+        articleSection: postData.game,
+        image: imageUrl,
+        inLanguage: 'en-US',
+        isPartOf: { '@id': `${SITE_URL}/#website` },
+        author: { '@id': `${SITE_URL}/#author` },
+        publisher: { '@id': `${SITE_URL}/#author` },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: SITE_NAME, item: SITE_URL },
+          { '@type': 'ListItem', position: 2, name: 'Blog', item: `${SITE_URL}/blog` },
+          { '@type': 'ListItem', position: 3, name: postData.title, item: pageUrl },
+        ],
+      },
+    ],
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-900 text-white" style={{ backgroundColor: 'var(--bg-page)' }}>
@@ -57,20 +110,23 @@ export default async function Post({ params }: Props) {
           <Link href="/" className="text-2xl font-bold text-blue-400 leading-none">
             Voiceline Viewer
           </Link>
-          <Link href="/blog" className="text-gray-300 hover:text-white font-medium">
-            Blog
-          </Link>
+          <nav aria-label="Primary">
+            <Link href="/blog" className="text-gray-300 hover:text-white font-medium">
+              Blog
+            </Link>
+          </nav>
         </div>
       </header>
 
       <main className="flex-grow container mx-auto px-4 py-12">
+        <JsonLd data={jsonLd} />
         <article className="max-w-3xl mx-auto">
           <div className="mb-8 pb-8 border-b border-gray-800">
             <div className="flex items-center gap-3 mb-4 text-sm">
               <Link href="/blog" className="text-gray-500 hover:text-gray-300">← Back to Blog</Link>
               <span className="text-gray-600">•</span>
               <CategoryBadge category={postData.game} />
-              <span className="text-gray-500">{postData.date}</span>
+              <time className="text-gray-500" dateTime={postData.date}>{postData.date}</time>
             </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-4">{postData.title}</h1>
             <p className="text-xl text-gray-400">{postData.description}</p>
@@ -93,6 +149,13 @@ export default async function Post({ params }: Props) {
                     </a>
                   );
                 },
+                img: ({ src, alt }) => (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img
+                    src={typeof src === 'string' ? src : undefined}
+                    alt={alt || postData.title}
+                  />
+                ),
               }}
             >
               {postData.content}

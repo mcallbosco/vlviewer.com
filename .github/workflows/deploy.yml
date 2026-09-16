@@ -82,6 +82,9 @@ jobs:
       - name: Generate Contributors Data
         run: node scripts/fetch-contributors.mjs
 
+      - name: Generate SEO and LLM files
+        run: node scripts/generate-ai-files.mjs
+
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
 

@@ -35,3 +35,12 @@ next-env.d.ts
 # local blog feed (generated for testing)
 blogs.json
 src/data/contributors.json
+
+# generated SEO / AI files
+/public/llms.txt
+/public/llms-full.txt
+/public/feed.xml
+/public/index.md
+/public/blog.md
+/public/contributors.md
+/public/blog/*.md

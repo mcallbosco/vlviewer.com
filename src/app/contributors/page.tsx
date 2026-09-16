@@ -2,10 +2,21 @@ import React from 'react';
 import contributorsData from '@/data/contributors.json';
 import { Metadata } from 'next';
 import Link from 'next/link';
+import JsonLd from '@/components/JsonLd';
+import { SITE_NAME, SITE_URL, pageAlternates } from '@/lib/site';
 
 export const metadata: Metadata = {
-  title: 'Contributors - VLViewer',
-  description: 'Community contributors to the Deadlock Transcriptions project.',
+  title: 'Contributors',
+  description:
+    'Community contributors who transcribed and corrected Deadlock voice lines for Voiceline Viewer.',
+  alternates: pageAlternates('/contributors', '/contributors.md'),
+  openGraph: {
+    title: `Contributors | ${SITE_NAME}`,
+    description:
+      'Community contributors who transcribed and corrected Deadlock voice lines for Voiceline Viewer.',
+    url: `${SITE_URL}/contributors`,
+    type: 'website',
+  },
 };
 
 interface Contributor {
@@ -28,18 +39,29 @@ export default function ContributorsPage() {
           <Link href="/" className="text-2xl font-bold text-blue-400 leading-none">
             Voiceline Viewer
           </Link>
-          <div className="flex space-x-6">
+          <nav aria-label="Primary" className="flex space-x-6">
             <Link href="/contributors" className="text-white font-medium transition-colors">
               Contributors
             </Link>
             <Link href="/blog" className="text-gray-300 hover:text-white font-medium transition-colors">
               Blog
             </Link>
-          </div>
+          </nav>
         </div>
       </header>
 
       <main className="flex-grow container mx-auto px-4 py-12 max-w-7xl">
+        <JsonLd
+          data={{
+            '@context': 'https://schema.org',
+            '@type': 'CollectionPage',
+            name: `${SITE_NAME} Contributors`,
+            description:
+              'Community contributors who transcribed and corrected Deadlock voice lines for Voiceline Viewer.',
+            url: `${SITE_URL}/contributors`,
+            isPartOf: { '@id': `${SITE_URL}/#website` },
+          }}
+        />
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-blue-400">
             Contributors
@@ -66,7 +88,7 @@ export default function ContributorsPage() {
                       /* eslint-disable-next-line @next/next/no-img-element */
                       <img
                         src={contributor.avatar_url}
-                        alt={displayName}
+                        alt={`${displayName} avatar`}
                         className="h-full w-full object-cover"
                       />
                     ) : (
