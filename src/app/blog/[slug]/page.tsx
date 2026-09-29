@@ -108,7 +108,7 @@ export default async function Post({ params }: Props) {
       <header className="bg-gray-800 shadow-md" style={{ backgroundColor: 'var(--bg-header)' }}>
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <Link href="/" className="text-2xl font-bold text-blue-400 leading-none">
-            Voiceline Viewer
+            Voice Line Viewer
           </Link>
           <nav aria-label="Primary">
             <Link href="/blog" className="text-gray-300 hover:text-white font-medium">

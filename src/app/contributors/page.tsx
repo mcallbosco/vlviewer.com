@@ -8,12 +8,12 @@ import { SITE_NAME, SITE_URL, pageAlternates } from '@/lib/site';
 export const metadata: Metadata = {
   title: 'Contributors',
   description:
-    'Community contributors who transcribed and corrected Deadlock voice lines for Voiceline Viewer.',
+    'Community contributors who transcribed and corrected Deadlock voice lines for Voice Line Viewer.',
   alternates: pageAlternates('/contributors', '/contributors.md'),
   openGraph: {
     title: `Contributors | ${SITE_NAME}`,
     description:
-      'Community contributors who transcribed and corrected Deadlock voice lines for Voiceline Viewer.',
+      'Community contributors who transcribed and corrected Deadlock voice lines for Voice Line Viewer.',
     url: `${SITE_URL}/contributors`,
     type: 'website',
   },
@@ -37,7 +37,7 @@ export default function ContributorsPage() {
       <header className="bg-gray-800 shadow-md" style={{ backgroundColor: 'var(--bg-header)' }}>
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <Link href="/" className="text-2xl font-bold text-blue-400 leading-none">
-            Voiceline Viewer
+            Voice Line Viewer
           </Link>
           <nav aria-label="Primary" className="flex space-x-6">
             <Link href="/contributors" className="text-white font-medium transition-colors">
@@ -57,7 +57,7 @@ export default function ContributorsPage() {
             '@type': 'CollectionPage',
             name: `${SITE_NAME} Contributors`,
             description:
-              'Community contributors who transcribed and corrected Deadlock voice lines for Voiceline Viewer.',
+              'Community contributors who transcribed and corrected Deadlock voice lines for Voice Line Viewer.',
             url: `${SITE_URL}/contributors`,
             isPartOf: { '@id': `${SITE_URL}/#website` },
           }}

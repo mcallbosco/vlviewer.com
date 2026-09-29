@@ -64,7 +64,7 @@ export const metadata: Metadata = {
         url: '/og.png',
         width: 1200,
         height: 630,
-        alt: 'Voiceline Viewer — Deadlock, Overwatch, and Apex Legends voice lines',
+        alt: 'Voice Line Viewer — Deadlock, Overwatch, and Apex Legends voice lines',
       },
     ],
   },

@@ -1,4 +1,4 @@
-# Voiceline Viewer
+# Voice Line Viewer
 # https://vlviewer.com
 #
 # AI crawlers and user-agent bots are welcome.

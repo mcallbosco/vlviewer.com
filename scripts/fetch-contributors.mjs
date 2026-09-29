@@ -1,6 +1,7 @@
-import { execSync } from 'child_process';
+import { execFileSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
+import { createInterface } from 'readline';
 
 const REPO_URL = 'https://github.com/mcallbosco/Deadlock-Transcriptions.git';
 const REPO_OWNER = 'mcallbosco';
@@ -94,23 +95,30 @@ async function main() {
     cleanUp();
 
     console.log(`Cloning ${REPO_URL}...`);
-    execSync(`git clone ${REPO_URL} ${TEMP_DIR}`, { stdio: 'inherit' });
+    execFileSync('git', ['clone', '--no-checkout', REPO_URL, TEMP_DIR], { stdio: 'inherit' });
 
     console.log('Analyzing git log...');
     // Get log with patches for JSON files
     // Format: "HASH|||AUTHOR_NAME|||AUTHOR_EMAIL" followed by the patch
-    const logCmd = 'git log --no-merges --pretty=format:"|||COMMIT|||%H|||%an|||%ae" -p -- "*.json"';
-    
-    // Increase buffer size to handle large logs
-    const logOutput = execSync(logCmd, { cwd: TEMP_DIR, maxBuffer: 1024 * 1024 * 100 }).toString();
+    // Stream the patch history through a file so repository growth cannot exceed
+    // a child-process output buffer or require the entire log in memory.
+    const logFile = path.join(TEMP_DIR, 'contributors-log.txt');
+    const logFd = fs.openSync(logFile, 'w');
+    try {
+      execFileSync('git', [
+        'log', '--no-merges', '--pretty=format:|||COMMIT|||%H|||%an|||%ae', '-p', '--', '*.json',
+      ], { cwd: TEMP_DIR, stdio: ['ignore', logFd, 'inherit'] });
+    } finally {
+      fs.closeSync(logFd);
+    }
 
     const contributorsMap = {}; // Keyed by Name initially
     let currentAuthor = null;
     let currentHash = null;
     
-    const lines = logOutput.split('\n');
+    const lines = createInterface({ input: fs.createReadStream(logFile), crlfDelay: Infinity });
     
-    for (const line of lines) {
+    for await (const line of lines) {
       if (line.startsWith('|||COMMIT|||')) {
         const parts = line.split('|||');
         if (parts.length >= 4) {
@@ -227,7 +235,7 @@ async function main() {
 
   } catch (error) {
     console.error('Error fetching contributors:', error);
-    process.exit(1);
+    process.exitCode = 1;
   } finally {
     cleanUp();
   }

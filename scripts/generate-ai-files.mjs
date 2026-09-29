@@ -7,7 +7,7 @@ import path from 'path';
 import matter from 'gray-matter';
 
 const SITE_URL = 'https://vlviewer.com';
-const SITE_NAME = 'Voiceline Viewer';
+const SITE_NAME = 'Voice Line Viewer';
 const SITE_DESCRIPTION =
   'Browse, search, and listen to character voice lines, quotes, and conversations from Deadlock, Overwatch, and Apex Legends.';
 const AUTHOR_NAME = 'Mcall';
@@ -125,7 +125,7 @@ Created by [${AUTHOR_NAME}](${AUTHOR_URL}). AI crawlers and agents are welcome; 
 
 ## Game viewers
 
-${GAMES.map((game) => `- [${game.name} Voiceline Viewer](${game.url}): ${game.description}`).join('\n')}
+${GAMES.map((game) => `- [${game.name} Voice Line Viewer](${game.url}): ${game.description}`).join('\n')}
 
 ## Blog posts
 

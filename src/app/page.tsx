@@ -89,7 +89,7 @@ export default function Home() {
                 href="/"
                 className="text-2xl font-bold text-blue-400 z-10 pr-2 leading-none"
               >
-                Voiceline Viewer
+                Voice Line Viewer
               </Link>
             </div>
             <nav aria-label="Primary" className="flex space-x-6 items-center mt-4 sm:mt-0">
@@ -110,7 +110,7 @@ export default function Home() {
           data={{
             '@context': 'https://schema.org',
             '@type': 'ItemList',
-            name: 'Voiceline Viewer games',
+            name: 'Voice Line Viewer games',
             itemListElement: games.map((game, index) => ({
               '@type': 'ListItem',
               position: index + 1,

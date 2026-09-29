@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Page not found',
-  description: 'This page does not exist on Voiceline Viewer.',
+  description: 'This page does not exist on Voice Line Viewer.',
   robots: { index: false, follow: true },
 };
 
@@ -13,7 +13,7 @@ export default function NotFound() {
       <header className="bg-gray-800 shadow-md" style={{ backgroundColor: 'var(--bg-header)' }}>
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <Link href="/" className="text-2xl font-bold text-blue-400 leading-none">
-            Voiceline Viewer
+            Voice Line Viewer
           </Link>
           <nav aria-label="Primary" className="flex space-x-6">
             <Link href="/contributors" className="text-gray-300 hover:text-white font-medium transition-colors">

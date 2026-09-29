@@ -1,8 +1,8 @@
 export const SITE_URL = 'https://vlviewer.com';
-export const SITE_NAME = 'Voiceline Viewer';
+export const SITE_NAME = 'Voice Line Viewer';
 export const SITE_SHORT_NAME = 'VLViewer';
 export const DEFAULT_TITLE =
-  'Voiceline Viewer | Deadlock, Overwatch & Apex Voice Lines';
+  'Voice Line Viewer | Deadlock, Overwatch & Apex Voice Lines';
 export const SITE_DESCRIPTION =
   'Browse, search, and listen to character voice lines, quotes, and conversations from Deadlock, Overwatch, and Apex Legends.';
 export const AUTHOR_NAME = 'Mcall';
