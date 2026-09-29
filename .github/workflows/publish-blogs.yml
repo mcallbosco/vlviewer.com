@@ -6,6 +6,9 @@ on:
     branches: ["main"]
     paths:
       - "content/blog/**"
+      - "scripts/publish-blogs.js"
+      - "scripts/verify-blog-feed.mjs"
+      - ".github/workflows/publish-blogs.yml"
 
   # Allows manual trigger from the Actions tab
   workflow_dispatch:
@@ -39,7 +42,10 @@ jobs:
 
       - name: Purge Cloudflare Cache
         run: |
-          curl -X POST "https://api.cloudflare.com/client/v4/zones/${{ secrets.CLOUDFLARE_ZONE_ID }}/purge_cache" \
+          curl --fail-with-body --silent --show-error -X POST "https://api.cloudflare.com/client/v4/zones/${{ secrets.CLOUDFLARE_ZONE_ID }}/purge_cache" \
             -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
             -H "Content-Type: application/json" \
-            --data '{"files":["https://r2blog.vlviewer.com/blogs.json"]}'
+            --data '{"hosts":["r2blog.vlviewer.com"]}' | jq -e '.success == true'
+
+      - name: Verify public blog feed
+        run: node scripts/verify-blog-feed.mjs
