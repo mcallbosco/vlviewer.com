@@ -54,13 +54,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       tags: postData.game ? [postData.game] : undefined,
       images: imageUrl
         ? [{ url: imageUrl, alt: postData.title }]
-        : [{ url: '/og.png', width: 1200, height: 630, alt: postData.title }],
+        : [],
     },
     twitter: {
-      card: 'summary_large_image',
+      card: imageUrl ? 'summary_large_image' : 'summary',
       title: postData.title,
       description: postData.description,
-      images: imageUrl ? [imageUrl] : ['/og.png'],
+      images: imageUrl ? [imageUrl] : [],
     },
   };
 }

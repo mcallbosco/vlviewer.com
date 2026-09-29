@@ -226,6 +226,7 @@ async function main() {
 
     const sortedContributors = Object.values(finalContributorsMap)
       .filter(c => c.login !== 'mcallbosco' && c.name !== 'copilot-swe-agent[bot]' && c.login !== 'jay-batalla')
+      .filter(c => c.name?.toLowerCase() !== 'codex' && c.login?.toLowerCase() !== 'codex')
       .sort((a, b) => b.transcription_count - a.transcription_count);
 
     console.log(`Resolved ${sortedContributors.length} unique contributors.`);

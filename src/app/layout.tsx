@@ -59,20 +59,11 @@ export const metadata: Metadata = {
     siteName: SITE_SHORT_NAME,
     locale: 'en_US',
     type: 'website',
-    images: [
-      {
-        url: '/og.png',
-        width: 1200,
-        height: 630,
-        alt: 'Voice Line Viewer — Deadlock, Overwatch, and Apex Legends voice lines',
-      },
-    ],
   },
   twitter: {
-    card: 'summary_large_image',
+    card: 'summary',
     title: DEFAULT_TITLE,
     description: SITE_DESCRIPTION,
-    images: ['/og.png'],
   },
 };
 

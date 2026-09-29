@@ -135,7 +135,6 @@ ${blogLinks}
 
 - [Author site](${AUTHOR_URL})
 - [Ko-fi](${KOFI_URL})
-- [Social preview image](${SITE_URL}/og.png)
 `;
 }
 
