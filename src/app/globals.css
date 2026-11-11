@@ -44,3 +44,12 @@ body {
   background: var(--background);
   font-family: var(--font-inter), sans-serif;
 }
+
+.prose img[alt="Tag icon"] {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  margin: 0 3px;
+  vertical-align: middle;
+  border-radius: 3px;
+}
